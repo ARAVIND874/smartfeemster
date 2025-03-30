@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>College Fees Billing</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 10px;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 100%;
+      max-width: 450px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button {
+      background: #6a11cb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    button:hover {
+      background: #2575fc;
+    }
+    .hidden { display: none; }
+    
+    /* Receipt Styles */
+    .receipt {
+      background: white;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+      border: 2px solid #6a11cb;
+    }
+    .receipt h3 {
+      color: #6a11cb;
+      margin-bottom: 10px;
+    }
+    
+    /* History Section Styles */
+    .history {
+      margin-top: 20px;
+      padding: 10px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      width: 100%;
+      max-width: 450px;
+    }
+    .history h3 {
+      color: #6a11cb;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to right, #d9e4ff, #ffffff);
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+      font-size: 14px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    .history-item:hover {
+      transform: scale(1.02);
+    }
+    #printHistory, #clearHistory {
+      width: 48%;
+      padding: 10px;
+      margin: 8px 1% 8px 1%;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    #printHistory {
+      background: #6a11cb;
+      color: white;
+    }
+    #printHistory:hover {
+      background: #2575fc;
+    }
+    #clearHistory {
+      background: #ff4d4d;
+      color: white;
+    }
+    #clearHistory:hover {
+      background: #cc0000;
+    }
+    
+    @media (max-width: 400px) {
+      .container, .history {
+        padding: 15px;
+      }
+      input, select, button {
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Page -->
+  <div class="container" id="loginPage">
+    <img src="charge.png" width="150px" height="150px">
+    <h2 style="color: darkred">SmartFee Master</h2>
+    <h2>A.V.V.M Sri Pushpam College</h2>
+    <h1>Sign into account</h1>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p id="loginError" style="color: red; display: none;">Invalid credentials, please try again.</p>
+  </div>
+
+  <!-- Billing Page -->
+  <div class="container hidden" id="billingPage">
+    <h1>A.V.V.M. Sri Pushpam College</h1>
+    <form id="billForm">
+      <label for="registerNo">Register Number</label>
+      <input type="text" id="registerNo" required>
+      
+      <label for="studentName">Student Name</label>
+      <input type="text" id="studentName" required>
+      
+      <label for="department">Department</label>
+      <select id="department" required>
+        <option value="B.A. in Economics">B.A. in Economics</option>
+        <option value="B.A. in History">B.A. in History</option>
+        <option value="B.A. in English">B.A. in English</option>
+        <option value="B.A. in Indian Culture">B.A. in Indian Culture</option>
+        <option value="B.A. in Tamil">B.A. in Tamil</option>
+        <option value="B.Sc. in Computer Science">B.Sc. in Computer Science</option>
+        <option value="B.Sc. in Botany">B.Sc. in Botany</option>
+        <option value="B.Sc. in Geography">B.Sc. in Geography</option>
+        <option value="B.Sc. in Zoology">B.Sc. in Zoology</option>
+        <option value="B.Sc. in Chemistry">B.Sc. in Chemistry</option>
+        <option value="B.Sc. in Mathematics">B.Sc. in Mathematics</option>
+        <option value="B.Sc. in Statistics">B.Sc. in Statistics</option>
+        <option value="B.Sc. in Physics">B.Sc. in Physics</option>
+        <option value="B.B.A. Bachelor of Business Administration">B.B.A. Bachelor of Business Administration</option>
+        <option value="B.C.A. Bachelor of Computer Application">B.C.A. Bachelor of Computer Application</option>
+        <option value="B.Com. Bachelor of Commerce">B.Com. Bachelor of Commerce</option>
+        <option value="B.Litt. in Tamil">B.Litt. in Tamil</option>
+        <option value="M.Sc. in Botany">M.Sc. in Botany</option>
+        <option value="M.Sc. in Mathematics">M.Sc. in Mathematics</option>
+        <option value="M.Sc. in Chemistry">M.Sc. in Chemistry</option>
+        <option value="M.Sc. in Information Technology">M.Sc. in Information Technology</option>
+        <option value="M.Sc. in Physics">M.Sc. in Physics</option>
+        <option value="M.Sc. in Biotechnology">M.Sc. in Biotechnology</option>
+        <option value="M.C.A. Master of Computer Applications">M.C.A. Master of Computer Applications</option>
+        <option value="M.B.A. Master of Business Administration">M.B.A. Master of Business Administration</option>
+      </select>
+      
+      <label for="billType">Bill Type</label>
+      <select id="billType">
+        <option value="tuition">Tuition</option>
+        <option value="bus">Bus</option>
+      </select>
+      
+      <label for="billAmount">Amount</label>
+      <input type="number" id="billAmount" required>
+      
+      <label for="billDate">Date</label>
+      <input type="date" id="billDate" required>
+      
+      <button type="submit">Add Bill</button>
+    </form>
+    
+    <!-- Receipt Display -->
+    <div class="receipt hidden" id="receipt"></div>
+    <button id="printBill" class="hidden">Print Bill</button>
+    
+    <!-- Bill History Section -->
+    <div class="history" id="billHistory">
+      <h3>Bill History</h3>
+      <!-- History items will be appended here dynamically -->
+      <div id="historyItems"></div>
+      <div style="display: flex; justify-content: space-between;">
+        <button id="printHistory">Print History</button>
+        <button id="clearHistory">Clear History</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Login Functionality ---
+    const loginForm = document.getElementById("loginForm");
+    const loginPage = document.getElementById("loginPage");
+    const billingPage = document.getElementById("billingPage");
+    const loginError = document.getElementById("loginError");
+
+    // Define valid users (you can add more as needed)
+    const validUsers = {
+      admin: "1234",
+      staff: "5678",
+      student: "abcd"
+    };
+
+    loginForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      
+      if (validUsers[username] && validUsers[username] === password) {
+        loginPage.classList.add("hidden");
+        billingPage.classList.remove("hidden");
+      } else {
+        loginError.style.display = "block";
+      }
+    });
+
+    // --- Billing and Receipt Functionality ---
+    const billForm = document.getElementById("billForm");
+    const receiptDiv = document.getElementById("receipt");
+    const printBillBtn = document.getElementById("printBill");
+    const historyItemsDiv = document.getElementById("historyItems");
+    let billHistory = [];
+
+    billForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      // Retrieve form values
+      const registerNo = document.getElementById("registerNo").value;
+      const studentName = document.getElementById("studentName").value;
+      const department = document.getElementById("department").value;
+      const billType = document.getElementById("billType").value;
+      const billAmount = document.getElementById("billAmount").value;
+      const billDate = document.getElementById("billDate").value;
+
+      // Generate receipt HTML content
+      const receiptContent = `
+        <h3>Bill Receipt</h3>
+         <img src="download.jpeg" width="150px" height="150px">
+        <p><strong>Register No:</strong> ${registerNo}</p>
+        <p><strong>Student Name:</strong> ${studentName}</p>
+        <p><strong>Department:</strong> ${department}</p>
+        <p><strong>Bill Type:</strong> ${billType}</p>
+        <p><strong>Amount:</strong> ₹${billAmount}</p>
+        <p><strong>Date:</strong> ${billDate}</p>
+      `;
+      receiptDiv.innerHTML = receiptContent;
+      receiptDiv.classList.remove("hidden");
+      printBillBtn.classList.remove("hidden");
+
+      // Save to history and update display
+      const billEntry = {
+        registerNo, studentName, department, billType, billAmount, billDate
+      };
+      billHistory.push(billEntry);
+      updateHistoryDisplay();
+
+      // Reset the form after submission (optional)
+      billForm.reset();
+    });
+
+    // Update the bill history section
+    function updateHistoryDisplay() {
+      historyItemsDiv.innerHTML = "";
+      billHistory.forEach((bill, index) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "history-item";
+        itemDiv.innerHTML = `
+          <span>${bill.registerNo} - ₹${bill.billAmount}</span>
+          <button onclick="removeHistory(${index})" style="padding:5px; font-size:0.8rem;">X</button>
+        `;
+        historyItemsDiv.appendChild(itemDiv);
+      });
+    }
+
+    // Remove individual history item
+    function removeHistory(index) {
+      billHistory.splice(index, 1);
+      updateHistoryDisplay();
+    }
+    window.removeHistory = removeHistory; // Make available in global scope
+
+    // --- Print Receipt Functionality ---
+    printBillBtn.addEventListener("click", function () {
+      const receiptContent = receiptDiv.innerHTML;
+      if (!receiptContent.trim()) {
+        alert("No receipt data available to print.");
+        return;
+      }
+      const printWindow = window.open("", "", "width=600,height=600");
+      printWindow.document.write(`
+        <html>
+          <head>
+          <h1>A.V.V.M SRI PUSHPAM COLLEGE<h1>
+            
+            <title>Bill Receipt</title>
+            <style>
+              body { font-family: 'Poppins', sans-serif; text-align: center; margin: 20px; }
+              .receipt-container { width: 90%; max-width: 400px; margin: auto; padding: 20px; background: white; border-radius: 12px; border: 3px solid #6a11cb; }\n
+              .receipt-container h3 { color: #6a11cb; }\n
+            </style>
+          </head>
+          <body>
+            <div class="receipt-container">
+              <div>${receiptContent}</div>
+              <p>Thank you for your payment!</p>
+            </div>
+            <script>window.print(); window.close();<\/script>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    });
+
+    // --- Print History Functionality ---
+    document.getElementById("printHistory").addEventListener("click", function () {
+      if (billHistory.length === 0) {
+        alert("No history data available to print.");
+        return;
+      }
+      let historyHTML = '<h3>Bill History</h3>';
+      billHistory.forEach(bill => {
+        historyHTML += `
+          <div style="margin-bottom: 10px; padding: 10px; border-bottom: 1px dashed #ccc;">
+            <p><strong>Register No:</strong> ${bill.registerNo}</p>
+            <p><strong>Student Name:</strong> ${bill.studentName}</p>
+            <p><strong>Department:</strong> ${bill.department}</p>
+            <p><strong>Bill Type:</strong> ${bill.billType}</p>
+            <p><strong>Amount:</strong> ₹${bill.billAmount}</p>
+            <p><strong>Date:</strong> ${bill.billDate}</p>
+          </div>
+        `;
+      });
+      const printWindow = window.open("", "", "width=600,height=600");
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Bill History</title>
+            <style>\n
+              body { font-family: 'Poppins', sans-serif; margin: 20px; }\n
+              h3 { text-align: center; color: #6a11cb; }\n
+              div { margin-bottom: 10px; padding: 10px; border-bottom: 1px dashed #ccc; }\n
+            </style>
+          </head>
+          <body>
+            ${historyHTML}
+            <script>window.print(); window.close();<\/script>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    });
+
+    // --- Clear History Functionality ---
+    document.getElementById("clearHistory").addEventListener("click", function () {
+      if (confirm("Are you sure you want to clear the bill history?")) {
+        billHistory = [];
+        updateHistoryDisplay();
+      }
+    });
+  </script>
+</body>
+</html>
